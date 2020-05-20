@@ -16,6 +16,11 @@ code {
 	margin-top: 20px;
 }
 
+.menu-card {
+	max-width: 18rem;
+	margin-bottom: 20px;
+}
+
 .menu-image {
 	height: 150px;
 }

@@ -1,46 +1,57 @@
 import React, { Component } from "react";
-import { Container, Row, Card, Button, Col } from "react-bootstrap";
-import img1 from "assets/images/img1.png";
-import img2 from "assets/images/img2.jpeg";
-import img3 from "assets/images/img3.jpeg";
+import { Container, Row } from "react-bootstrap";
+import MenuCard from "components/MenuCard";
+import { getQuery, postQuery } from "modules/query";
+import apiUrl from "modules/endpoint";
+import Loading from "components/loader";
 
 class Menu extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			menuList: [],
+		};
+
+		this.getMenu = this.getMenu.bind(this);
+		this.addToCart = this.addToCart.bind(this);
+	}
+
+	getMenu() {
+		getQuery(`${apiUrl}menus`)
+			.then((data) => {
+				this.setState({ menuList: data.body });
+			})
+			.then((error) => {});
+	}
+
+	addToCart(id) {
+		let formData = new FormData();
+		formData.append("menu_id", id);
+		postQuery(`${apiUrl}add-to-cart`, formData)
+			.then((data) => {})
+			.then((error) => {});
+	}
+
+	componentDidMount() {
+		this.getMenu();
+	}
+
 	render() {
 		return (
 			<Container className="container-body">
 				<Row>
-					<Col sm={4}>
-						<Card style={{ width: "18rem" }}>
-							<Card.Img variant="top" src={img1} className="menu-image" />
-							<Card.Body>
-								<Card.Title>Asun</Card.Title>
-								<Card.Text>usd 50</Card.Text>
-								<Button variant="primary">Add to cart</Button>
-							</Card.Body>
-						</Card>
-					</Col>
-
-					<Col sm={4}>
-						<Card style={{ width: "18rem" }}>
-							<Card.Img variant="top" src={img2} className="menu-image" />
-							<Card.Body>
-								<Card.Title>Peppered chicken</Card.Title>
-								<Card.Text>200</Card.Text>
-								<Button variant="primary">Add to cart</Button>
-							</Card.Body>
-						</Card>
-					</Col>
-
-					<Col sm={4}>
-						<Card style={{ width: "18rem" }}>
-							<Card.Img variant="top" src={img3} className="menu-image" />
-							<Card.Body>
-								<Card.Title>Ofa soup</Card.Title>
-								<Card.Text>1000</Card.Text>
-								<Button variant="primary">Add to cart</Button>
-							</Card.Body>
-						</Card>
-					</Col>
+					{this.state.menuList.length > 0 ? (
+						this.state.menuList.map((data) => (
+							<MenuCard
+								key={data.menu_id}
+								data={data}
+								addToCart={this.addToCart}
+							/>
+						))
+					) : (
+						<Loading />
+					)}
 				</Row>
 			</Container>
 		);
