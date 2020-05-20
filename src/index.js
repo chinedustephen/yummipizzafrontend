@@ -4,11 +4,18 @@ import "./index.css";
 import Routes from "routes/route";
 import * as serviceWorker from "./serviceWorker";
 import Header from "components/header";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import combineReducers from "redux/reducers/index";
+
+const store = createStore(combineReducers);
 
 ReactDOM.render(
 	<React.StrictMode>
-		<Header />
-		<Routes />
+		<Provider store={store}>
+			<Header />
+			<Routes />
+		</Provider>
 	</React.StrictMode>,
 	document.getElementById("root")
 );
