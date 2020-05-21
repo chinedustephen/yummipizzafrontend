@@ -7,6 +7,7 @@ import fetchCart from "actions/fetchCart";
 import CartCard from "components/cartCard";
 import { putQuery, deleteQuery } from "modules/query";
 import apiUrl from "modules/endpoint";
+import AlertCard from "components/alertCard";
 
 class Cart extends Component {
 	constructor(props) {
@@ -33,7 +34,6 @@ class Cart extends Component {
 
 	updateCartItem(event, id) {
 		event.preventDefault();
-		console.log(event.target[0].value);
 		let formData = { quantity: event.target[0].value };
 
 		putQuery(`${apiUrl}update-cart/${id}`, formData)
@@ -55,6 +55,7 @@ class Cart extends Component {
 	render() {
 		return (
 			<Container className="container-body">
+				<AlertCard />
 				<Row style={{ marginBottom: "20px" }}>
 					<Col>
 						<Card className="shadowed-card">

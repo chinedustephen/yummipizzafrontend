@@ -46,7 +46,7 @@ class header extends Component {
 					<Navbar.Brand href="/">
 						<img
 							alt=""
-							src="/logo.svg"
+							src="/logo.jpg"
 							width="30"
 							height="30"
 							className="d-inline-block align-top"
@@ -57,7 +57,7 @@ class header extends Component {
 					<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 					<Navbar.Collapse id="responsive-navbar-nav">
 						<Nav className="mr-auto"></Nav>
-						<NavDropdown title="Dropdown" id="basic-nav-dropdown">
+						<NavDropdown title="Currency" id="basic-nav-dropdown">
 							<NavDropdown.Item
 								onClick={() => this.initiateCurrency("eur")}
 								href="#"
