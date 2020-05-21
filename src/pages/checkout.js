@@ -43,10 +43,10 @@ class Checkout extends Component {
 			<Container className="container-body">
 				<Row>
 					<AlertCard />
-					<Col sm={5}>
+					<Col md={5} style={{ marginBottom: "20px" }}>
 						<Card>
 							<Card.Header>Order Summary</Card.Header>
-							<Table hover size="lg">
+							<Table responsive hover size="lg">
 								<thead>
 									<tr>
 										<th>Product</th>
@@ -104,7 +104,7 @@ class Checkout extends Component {
 						</Card>
 					</Col>
 
-					<Col sm={7}>
+					<Col md={7}>
 						<Card>
 							<Card.Header>Confirm Order</Card.Header>
 
