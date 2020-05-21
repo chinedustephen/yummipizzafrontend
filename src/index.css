@@ -24,3 +24,46 @@ code {
 .menu-image {
 	height: 150px;
 }
+
+.alert-fixed {
+	position: fixed;
+	top: 0;
+	width: 86%;
+	display: block;
+	z-index: 1000;
+}
+
+.popover {
+	max-width: 100%;
+}
+
+.shadowed-card {
+	box-shadow: 1px 2px 10px #cecece;
+	border: 0px !important;
+}
+
+.horizontal-card-body {
+	float: left;
+	margin-left: 20px;
+	display: inline-block;
+}
+
+.horizontal-card-img {
+	float: left;
+	display: inline-block;
+	max-width: 200px;
+}
+
+.product-card {
+	margin-bottom: 20px;
+}
+
+.cart-quantity {
+	max-width: 400px;
+	margin-left: 20px;
+	display: inline-block;
+}
+
+.cart-quantity input {
+	width: 100px;
+}

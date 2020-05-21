@@ -1,37 +1,100 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
-
-import img1 from "assets/images/img1.png";
+import { Container, Row, Col, Card, Button, Nav } from "react-bootstrap";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as actions from "redux/actions/index";
+import fetchCart from "actions/fetchCart";
+import CartCard from "components/cartCard";
+import Loading from "components/loader";
+import { putQuery, deleteQuery } from "modules/query";
+import apiUrl from "modules/endpoint";
 
 class Cart extends Component {
+	constructor(props) {
+		super(props);
+
+		this.deleteCartItem = this.deleteCartItem.bind(this);
+		this.updateCartItem = this.updateCartItem.bind(this);
+	}
+
+	deleteCartItem(id) {
+		deleteQuery(`${apiUrl}delete-cart/${id}`)
+			.then((data) => {
+				this.props.actions.alert({
+					show: true,
+					status: data.status,
+					message: data.message,
+				});
+				fetchCart(this.props.actions.cart);
+			})
+			.catch((error) => {
+				this.props.actions.alert({ show: true, ...error });
+			});
+	}
+
+	updateCartItem(event, id) {
+		event.preventDefault();
+		console.log(event.target[0].value);
+		let formData = { quantity: event.target[0].value };
+
+		putQuery(`${apiUrl}update-cart/${id}`, formData)
+			.then((data) => {
+				this.props.actions.alert({
+					show: true,
+					status: data.status,
+					message: data.message,
+				});
+				fetchCart(this.props.actions.cart);
+			})
+			.catch((error) => {
+				this.props.actions.alert({ show: true, ...error });
+			});
+	}
+	componentDidMount() {
+		fetchCart(this.props.actions.cart);
+	}
 	render() {
 		return (
 			<Container className="container-body">
 				<Row style={{ marginBottom: "20px" }}>
 					<Col>
-						<Card>
+						<Card className="shadowed-card">
 							<Card.Header>Cart</Card.Header>
 						</Card>
 					</Col>
 				</Row>
 				<Row>
 					<Col>
-						<Card>
-							<Card.Body>
-								<Row>
-									<Col>
-										<Card.Img src={img1} />
-									</Col>
+						{this.props.cart.cart.length > 0 ? (
+							this.props.cart.cart.map((data) => {
+								return (
+									<CartCard
+										key={data.cart_id}
+										data={data}
+										deleteCart={this.deleteCartItem}
+										updateCart={this.updateCartItem}
+									/>
+								);
+							})
+						) : (
+							<Loading />
+						)}
+					</Col>
+				</Row>
 
-									<Col>
-										<Card.Title>Name</Card.Title>
-										<Card.Text>Description</Card.Text>
-										<Card.Text>200</Card.Text>
-										<Button variant="danger">Remove</Button>
-									</Col>
-								</Row>
-							</Card.Body>
-						</Card>
+				<Row>
+					<Col>
+						<Nav.Link href="/" className="float-left">
+							<Button variant="secondary" size="sm">
+								Continue Shoping
+							</Button>
+						</Nav.Link>
+
+						<Nav.Link href="/checkout" className="float-left">
+							<Button variant="secondary" size="sm">
+								Proceed to Checkout
+							</Button>
+						</Nav.Link>
 					</Col>
 				</Row>
 			</Container>
@@ -39,4 +102,12 @@ class Cart extends Component {
 	}
 }
 
-export default Cart;
+const matchStateToProp = (state) => {
+	return { alert: state.alert, cart: state.cart };
+};
+
+const matchActionToProp = (dispatch) => {
+	return { actions: bindActionCreators(actions, dispatch) };
+};
+
+export default connect(matchStateToProp, matchActionToProp)(Cart);

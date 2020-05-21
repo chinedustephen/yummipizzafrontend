@@ -8,6 +8,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as actions from "redux/actions/index";
 import AlertCard from "components/alertCard";
+import fetchCart from "actions/fetchCart";
 
 class Menu extends Component {
 	constructor(props) {
@@ -41,6 +42,7 @@ class Menu extends Component {
 					status: data.status,
 					message: data.message,
 				});
+				fetchCart(this.props.actions.cart);
 			})
 			.catch((error) => {
 				this.props.actions.alert({ show: true, ...error });
@@ -49,6 +51,7 @@ class Menu extends Component {
 
 	componentDidMount() {
 		this.getMenu();
+		fetchCart(this.props.actions.cart);
 	}
 
 	render() {

@@ -18,6 +18,7 @@ class AlertCard extends Component {
 		if (this.props.alert.show) {
 			return (
 				<Alert
+					className="alert-fixed"
 					variant={this.props.alert.status === "success" ? "success" : "danger"}
 					onClose={() => this.dismissAlert(false)}
 					dismissible
