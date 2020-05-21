@@ -7,8 +7,12 @@ import {
 	Popover,
 	Table,
 	Button,
+	NavDropdown,
 } from "react-bootstrap";
 import { connect } from "react-redux";
+import { currencyAmount } from "modules/currency";
+import cartTotal from "modules/cartTotalPrice";
+import { setCurrency } from "modules/currency";
 
 class header extends Component {
 	constructor(props) {
@@ -22,6 +26,11 @@ class header extends Component {
 			ref: null,
 		};
 		this.handleClick = this.handleClick.bind(this);
+	}
+
+	initiateCurrency(iso) {
+		setCurrency(iso);
+		window.location.reload();
 	}
 
 	handleClick(event) {
@@ -48,6 +57,21 @@ class header extends Component {
 					<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 					<Navbar.Collapse id="responsive-navbar-nav">
 						<Nav className="mr-auto"></Nav>
+						<NavDropdown title="Dropdown" id="basic-nav-dropdown">
+							<NavDropdown.Item
+								onClick={() => this.initiateCurrency("eur")}
+								href="#"
+							>
+								EUR
+							</NavDropdown.Item>
+							<NavDropdown.Divider />
+							<NavDropdown.Item
+								onClick={() => this.initiateCurrency("usd")}
+								href="#"
+							>
+								USD
+							</NavDropdown.Item>
+						</NavDropdown>
 						<Nav>
 							<Nav.Link href="#" onClick={this.handleClick}>
 								Cart{" "}
@@ -65,39 +89,60 @@ class header extends Component {
 									<Popover.Content>
 										<Table striped hover size="lg">
 											<thead>
-												<th>Product</th>
-												<th>Quantity</th>
-												<th>Price</th>
-												<th>Total</th>
+												<tr>
+													<th>Product</th>
+													<th>Quantity</th>
+													<th>Price</th>
+													<th>Total</th>
+												</tr>
 											</thead>
 											<tbody>
-												{this.props.cart.cart.length > 0
-													? this.props.cart.cart.map((data) => {
-															return (
-																<tr key={data.cart_id}>
-																	<td>{data.menu_name}</td>
-																	<td>{data.cart_quantity}</td>
-																	<td>{data.menu_price}</td>
-																	<td>
-																		{data.cart_quantity * data.menu_price}
-																	</td>
-																</tr>
-															);
-													  })
-													: ""}
+												{this.props.cart.cart.length > 0 ? (
+													this.props.cart.cart.map((data) => {
+														return (
+															<tr key={data.cart_id}>
+																<td>{data.menu_name}</td>
+																<td>{data.cart_quantity}</td>
+																<td>{currencyAmount(data.menu_price)}</td>
+																<td>
+																	{currencyAmount(
+																		data.cart_quantity * data.menu_price
+																	)}
+																</td>
+															</tr>
+														);
+													})
+												) : (
+													<tr></tr>
+												)}
+
+												{this.props.cart.cart.length > 0 ? (
+													<tr>
+														<td colSpan={3}>Total</td>
+														<td>{cartTotal(this.props.cart.cart)}</td>
+													</tr>
+												) : (
+													<tr></tr>
+												)}
 											</tbody>
 										</Table>
-										<Nav.Link href="/cart" className="float-left">
-											<Button variant="secondary" size="sm">
-												View Cart
-											</Button>
-										</Nav.Link>
 
-										<Nav.Link href="/checkout" className="float-right">
-											<Button variant="success" size="sm">
-												Checkout
-											</Button>
-										</Nav.Link>
+										{this.props.cart.cart.length > 0 ? (
+											<>
+												<Nav.Link href="/cart" className="float-left">
+													<Button variant="secondary" size="sm">
+														View Cart
+													</Button>
+												</Nav.Link>
+												<Nav.Link href="/checkout" className="float-right">
+													<Button variant="success" size="sm">
+														Checkout
+													</Button>
+												</Nav.Link>
+											</>
+										) : (
+											""
+										)}
 									</Popover.Content>
 								</Popover>
 							</Overlay>

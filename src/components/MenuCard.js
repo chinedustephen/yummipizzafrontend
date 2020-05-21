@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Button, Col } from "react-bootstrap";
+import { currencyAmount } from "modules/currency";
 
 function MenuCard(props) {
 	return (
@@ -12,7 +13,7 @@ function MenuCard(props) {
 				/>
 				<Card.Body>
 					<Card.Title>{props.data.menu_name}</Card.Title>
-					<Card.Text>usd {props.data.menu_price}</Card.Text>
+					<Card.Text>{currencyAmount(props.data.menu_price)}</Card.Text>
 					<Button
 						variant="primary"
 						onClick={() => props.addToCart(props.data.menu_id)}

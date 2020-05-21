@@ -17,6 +17,8 @@ import { postQuery } from "modules/query";
 import apiUrl from "modules/endpoint";
 import AlertCard from "components/alertCard";
 import AlertInput from "components/alertInput";
+import { currencyAmount } from "modules/currency";
+import cartTotal from "modules/cartTotalPrice";
 
 class Checkout extends Component {
 	componentDidMount() {
@@ -60,8 +62,12 @@ class Checkout extends Component {
 												<tr key={data.cart_id}>
 													<td>{data.menu_name}</td>
 													<td>{data.cart_quantity}</td>
-													<td>{data.menu_price}</td>
-													<td>{data.cart_quantity * data.menu_price}</td>
+													<td>{currencyAmount(data.menu_price)}</td>
+													<td>
+														{currencyAmount(
+															data.cart_quantity * data.menu_price
+														)}
+													</td>
 												</tr>
 											);
 										})
@@ -70,11 +76,20 @@ class Checkout extends Component {
 											<td colSpan={4}>No item in cart</td>
 										</tr>
 									)}
+
+									{this.props.cart.cart.length > 0 ? (
+										<tr>
+											<td colSpan={3}>Total</td>
+											<td>{cartTotal(this.props.cart.cart)}</td>
+										</tr>
+									) : (
+										""
+									)}
 								</tbody>
 							</Table>
 
 							<Card.Footer>
-								<Nav.Link href="/checkout" className="float-left">
+								<Nav.Link href="/" className="float-left">
 									<Button variant="secondary" size="sm">
 										Continue Shoping
 									</Button>

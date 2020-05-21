@@ -5,7 +5,6 @@ import { bindActionCreators } from "redux";
 import * as actions from "redux/actions/index";
 import fetchCart from "actions/fetchCart";
 import CartCard from "components/cartCard";
-import Loading from "components/loader";
 import { putQuery, deleteQuery } from "modules/query";
 import apiUrl from "modules/endpoint";
 
@@ -77,12 +76,16 @@ class Cart extends Component {
 								);
 							})
 						) : (
-							<Loading />
+							<Card>
+								<Card.Body>
+									<Card.Text>No item found</Card.Text>
+								</Card.Body>
+							</Card>
 						)}
 					</Col>
 				</Row>
 
-				<Row>
+				<Row style={{ marginTop: "20px" }}>
 					<Col>
 						<Nav.Link href="/" className="float-left">
 							<Button variant="secondary" size="sm">
@@ -90,11 +93,15 @@ class Cart extends Component {
 							</Button>
 						</Nav.Link>
 
-						<Nav.Link href="/checkout" className="float-left">
-							<Button variant="secondary" size="sm">
-								Proceed to Checkout
-							</Button>
-						</Nav.Link>
+						{this.props.cart.cart.length > 0 ? (
+							<Nav.Link href="/checkout" className="float-left">
+								<Button variant="secondary" size="sm">
+									Proceed to Checkout
+								</Button>
+							</Nav.Link>
+						) : (
+							""
+						)}
 					</Col>
 				</Row>
 			</Container>
