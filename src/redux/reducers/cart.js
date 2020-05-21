@@ -7,7 +7,7 @@ const initalState = {
 export default function createContract(state = initalState, action) {
 	switch (action.type) {
 		case actionTypes.CART:
-			return Object.assign({}, state, { cart: action.payload.cart });
+			return Object.assign({}, state, { cart: action.payload });
 		default:
 			return state;
 	}
