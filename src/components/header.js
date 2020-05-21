@@ -34,7 +34,7 @@ class header extends Component {
 		return (
 			<>
 				<Navbar bg="dark" variant="dark">
-					<Navbar.Brand href="#home">
+					<Navbar.Brand href="/">
 						<img
 							alt=""
 							src="/logo.svg"
