@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
+import { currencyAmount } from "modules/currency";
 
 function cartCard(props) {
 	return (
@@ -15,7 +16,7 @@ function cartCard(props) {
 						<Card.Text>{props.data.menu_description}</Card.Text>
 						<Card.Text>
 							<span>Unit price: </span>
-							{props.data.menu_price}
+							{currencyAmount(props.data.menu_price)}
 						</Card.Text>
 						<Card.Text>
 							<span>Quantity: </span>
@@ -23,7 +24,7 @@ function cartCard(props) {
 						</Card.Text>
 						<Card.Text>
 							<span>Total price: </span>
-							{props.data.cart_quantity * props.data.menu_price}
+							{currencyAmount(props.data.cart_quantity * props.data.menu_price)}
 						</Card.Text>
 
 						<div>
