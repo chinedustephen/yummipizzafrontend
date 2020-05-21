@@ -1,4 +1,4 @@
-let url = "http://localhost:8000";
+let url = "https://api-steve-yummi-pizza.herokuapp.com";
 const apiUrl = url + "/api/";
 
 export const baseUrl = url;
